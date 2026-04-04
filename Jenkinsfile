@@ -2,29 +2,40 @@ pipeline {
     agent any
 
     environment {
-        // -------- Execution Control --------
-        ENV = "docker"                  // local | docker | staging
-        PLATFORM = "web"                // web | android | ios
+        // -------------------------------
+        // Execution Config
+        // -------------------------------
+        ENV = "docker"
+        PLATFORM = "web"
         BROWSER = "chrome"
-        DEVICE = "default"
 
-        // -------- Selenium / Appium --------
+        // -------------------------------
+        // Selenium Grid
+        // -------------------------------
         SELENIUM_URL = "http://172.17.0.1:4444/wd/hub"
-        APPIUM_URL = "http://127.0.0.1:4723/wd/hub"
 
-        // -------- Timeouts --------
+        // -------------------------------
+        // Timeouts
+        // -------------------------------
         IMPLICIT_WAIT = "5"
         PAGE_LOAD_TIMEOUT = "30"
 
-        // -------- Logging --------
+        // -------------------------------
+        // Logging
+        // -------------------------------
         LOG_LEVEL = "INFO"
         LOG_DIR = "reports/logs"
     }
 
     stages {
 
-         stage('Checkout') {
+        // --------------------------------
+        // FIX: Explicit Git Checkout
+        // --------------------------------
+        stage('Checkout Code') {
             steps {
+                echo "Cloning repository..."
+
                 checkout([
                     $class: 'GitSCM',
                     branches: [[name: '*/main']],
@@ -35,9 +46,12 @@ pipeline {
             }
         }
 
-        stage('Setup Python Environment') {
+        // --------------------------------
+        // Setup Python
+        // --------------------------------
+        stage('Setup Environment') {
             steps {
-                echo "Installing dependencies..."
+                echo "Setting up Python environment..."
 
                 sh '''
                 python3 -m venv venv
@@ -49,40 +63,33 @@ pipeline {
             }
         }
 
-        stage('Verify Selenium Grid') {
-            when {
-                expression { env.PLATFORM == 'web' }
-            }
+        // --------------------------------
+        // Validate Selenium Grid
+        // --------------------------------
+        stage('Check Selenium Grid') {
             steps {
-                echo "Checking Selenium Grid availability..."
+                echo "Checking Selenium availability..."
 
                 sh '''
-                curl --fail ${SELENIUM_URL}/status || (echo "Selenium Grid not reachable" && exit 1)
+                curl --fail ${SELENIUM_URL}/status \
+                || (echo "Selenium Grid NOT reachable" && exit 1)
                 '''
             }
         }
 
-        stage('Verify Appium Server') {
-            when {
-                expression { env.PLATFORM == 'android' || env.PLATFORM == 'ios' }
-            }
-            steps {
-                echo "Checking Appium Server..."
-
-                sh '''
-                curl --fail ${APPIUM_URL}/status || (echo "Appium not reachable" && exit 1)
-                '''
-            }
-        }
-
+        // --------------------------------
+        // Run Tests
+        // --------------------------------
         stage('Run Tests') {
             steps {
-                echo "Running tests..."
+                echo "Executing tests..."
 
                 sh '''
                 . venv/bin/activate
 
-                pytest tests/ \
+                mkdir -p reports
+
+                pytest tests/web/ \
                     --maxfail=1 \
                     --disable-warnings \
                     --html=reports/report.html \
@@ -91,6 +98,9 @@ pipeline {
             }
         }
 
+        // --------------------------------
+        // Archive Reports
+        // --------------------------------
         stage('Archive Reports') {
             steps {
                 echo "Archiving reports..."
@@ -103,15 +113,15 @@ pipeline {
     post {
 
         always {
-            echo "Cleaning up workspace..."
+            echo "Cleaning workspace..."
         }
 
         success {
-            echo "Build SUCCESS"
+            echo "Build SUCCESS ✅"
         }
 
         failure {
-            echo "Build FAILED"
+            echo "Build FAILED ❌"
         }
     }
 }
