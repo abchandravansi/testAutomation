@@ -23,10 +23,15 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
+         stage('Checkout') {
             steps {
-                echo "Checking out code..."
-                checkout scm
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/abchandravansi/testAutomation.git'
+                    ]]
+                ])
             }
         }
 
