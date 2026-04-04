@@ -1,0 +1,11 @@
+ # appium ios caps
+ default:
+  platformName: "iOS"
+  automationName: "XCUITest"
+  deviceName: "iPhone 14"
+  platformVersion: "16.0"
+
+  bundleId: "com.example.ios"
+
+  noReset: true
+  newCommandTimeout: 300

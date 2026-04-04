@@ -1,0 +1,22 @@
+env: local
+
+timeouts:
+  implicit_wait: 5
+  explicit_wait: 10
+  page_load: 30
+
+retry:
+  attempts: 3
+  delay: 2
+
+urls:
+  web_base_url: "https://www.google.com"
+
+grid:
+  selenium_url: "http://172.17.0.1:4444/wd/hub"
+  appium_url: "http://127.0.0.1:4723/wd/hub"
+
+execution:
+  platform: "web"        # web | android | ios
+  browser: "chrome"      # chrome | firefox | edge
+  headless: true
