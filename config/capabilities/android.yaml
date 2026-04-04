@@ -1,0 +1,26 @@
+# appium android caps
+
+default:
+  platformName: "Android"
+  automationName: "UiAutomator2"
+  deviceName: "Android Emulator"
+
+  # App under test
+  appPackage: "com.example"
+  appActivity: ".MainActivity"
+
+  # Stability options
+  newCommandTimeout: 300
+  autoGrantPermissions: true
+  noReset: true
+
+real_device:
+  platformName: "Android"
+  automationName: "UiAutomator2"
+  deviceName: "Pixel_6"
+
+  udid: "your-device-id"
+  platformVersion: "13"
+
+  appPackage: "com.example"
+  appActivity: ".MainActivity"

@@ -1,0 +1,24 @@
+## Browser Configuration
+
+chrome:
+  browserName: "chrome"
+  platformName: "LINUX"
+
+  goog:chromeOptions:
+    args:
+      - "--headless=new"
+      - "--no-sandbox"
+      - "--disable-dev-shm-usage"
+      - "--window-size=1920,1080"
+
+firefox:
+  browserName: "firefox"
+  platformName: "LINUX"
+
+  moz:firefoxOptions:
+    args:
+      - "-headless"
+
+edge:
+  browserName: "MicrosoftEdge"
+  platformName: "LINUX"
