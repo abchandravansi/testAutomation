@@ -13,8 +13,8 @@ urls:
   web_base_url: "https://www.google.com"
 
 grid:
-  selenium_url: "http://172.17.0.1:4444/wd/hub"
-  appium_url: "http://127.0.0.1:4723/wd/hub"
+  selenium_url: "http://selenium:4444/wd/hub"
+  appium_url: "http://appium:4723/wd/hub"
 
 execution:
   platform: "web"        # web | android | ios

@@ -1,7 +1,8 @@
 from core.base_test import BaseTest
 from pages.web.google_page import GooglePage
+import pytest
 
-
+@pytest.mark.smoke
 class TestGoogle(BaseTest):
 
     def test_google_search(self):

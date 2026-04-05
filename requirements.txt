@@ -45,6 +45,7 @@ pandas==2.2.2
 browserstack-local==1.2.0
 jsonschema==4.22.0
 selenium-wire==5.1.0   # network inspection
+requests-toolbelt==1.0.0
 
 # -------------------------------
 # Dev / Linting (Optional but useful)

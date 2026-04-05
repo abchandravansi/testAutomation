@@ -12,7 +12,7 @@ pipeline {
         // -------------------------------
         // Selenium Grid
         // -------------------------------
-        SELENIUM_URL = "http://172.17.0.1:4444/wd/hub"
+        SELENIUM_URL = "http://selenium:4444/wd/hub"
 
         // -------------------------------
         // Timeouts
