@@ -1,9 +1,9 @@
-from core.config_loader import get_environment_config, load_yaml
+from src.core.config_loader import get_environment_config, load_yaml
 from selenium import webdriver
 from appium import webdriver as appium_webdriver
 from selenium.webdriver.chrome.options import Options
 import os
-from core.logger import log
+from src.core.logger import log
 
 
 def create_driver():

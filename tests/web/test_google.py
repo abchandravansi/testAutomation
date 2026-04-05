@@ -1,5 +1,5 @@
-from core.base_test import BaseTest
-from pages.web.google_page import GooglePage
+from src.core.base_test import BaseTest
+from src.pages.web.google_page import GooglePage
 import pytest
 
 @pytest.mark.smoke

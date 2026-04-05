@@ -1,12 +1,12 @@
+from src.core.utils import get_project_root
 import os
 import sys
 from loguru import logger
 
-
 # -------------------------------
 # Config
 # -------------------------------
-LOG_DIR = os.getenv("LOG_DIR", "reports/logs")
+LOG_DIR = os.path.join(get_project_root(), "reports", "logs")
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 
 os.makedirs(LOG_DIR, exist_ok=True)

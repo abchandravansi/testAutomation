@@ -4,8 +4,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from tenacity import retry, stop_after_attempt, wait_fixed
-
-from core.logger import log
+from src.core.utils import get_env
+from src.core.logger import log
 
 
 # -------------------------------
@@ -23,7 +23,7 @@ def _start_remote_driver(selenium_url, options):
 # Main Driver Creator
 # -------------------------------
 def create_web_driver(env_config, caps):
-    selenium_url = os.getenv("SELENIUM_URL") or env_config.get("selenium_url")
+    selenium_url = get_env("SELENIUM_URL") or env_config.get("selenium_url")
 
     browser = caps.get("browserName", "chrome").lower()
 

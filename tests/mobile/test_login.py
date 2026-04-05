@@ -1,5 +1,5 @@
-from core.base_test import BaseTest
-from pages.mobile.login_page import LoginPage
+from src.core.base_test import BaseTest
+from src.pages.mobile.login_page import LoginPage
 
 
 class TestLogin(BaseTest):

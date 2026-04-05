@@ -1,6 +1,6 @@
 local:
-  selenium_url: "http://172.17.0.1:4444/wd/hub"
-  appium_url: "http://127.0.0.1:4723/wd/hub"
+  selenium_url: "http://localhost:4444/wd/hub"
+  appium_url: "http://localhost:4723/wd/hub"
 
 docker:
   selenium_url: "http://selenium:4444/wd/hub"

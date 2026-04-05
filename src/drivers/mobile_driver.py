@@ -1,10 +1,9 @@
 # appium wrapper
 import os
 from appium import webdriver as appium_webdriver
-
+from src.core.utils import get_env
 from tenacity import retry, stop_after_attempt, wait_fixed
-
-from core.logger import log
+from src.core.logger import log
 
 
 # -------------------------------
@@ -19,7 +18,7 @@ def _start_appium_driver(appium_url, caps):
 # Android Driver
 # -------------------------------
 def create_android_driver(env_config, caps):
-    appium_url = os.getenv("APPIUM_URL") or env_config.get("appium_url")
+    appium_url = get_env("APPIUM_URL") or env_config.get("appium_url")
 
     log.info("[MOBILE] Starting Android session")
     log.info(f"[MOBILE] Appium URL: {appium_url}")
