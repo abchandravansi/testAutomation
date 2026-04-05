@@ -1,4 +1,5 @@
-from src.core.config_loader import get_environment_config, load_yaml
+from src.core.config_loader import load_env_config
+from core.utils import load_yaml
 from selenium import webdriver
 from appium import webdriver as appium_webdriver
 from selenium.webdriver.chrome.options import Options
@@ -16,7 +17,7 @@ def create_driver():
     log.info(f"Browser : {browser}")
     log.info(f"Device : {device}")
 
-    env_config = get_environment_config()
+    env_config = load_env_config()
 
     if platform == "web":
         log.info("Setting up WebDriver for Selenium Grid")

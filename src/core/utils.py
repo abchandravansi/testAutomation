@@ -2,6 +2,7 @@ from pathlib import Path
 import time
 import os
 from datetime import datetime
+import yaml
 
 def current_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -23,3 +24,33 @@ def get_project_root():
 
 def get_config_path(filename):
     return get_project_root() / "config" / filename
+
+def load_yaml(filename):
+    file_path = get_config_path(filename)
+
+    with open(file_path) as f:
+        return yaml.safe_load(f)
+    
+def load_web_capabilities(platform, profile="chrome"):
+    caps_file = f"{platform}.yaml"
+    caps_path = get_project_root() / "config" / "capabilities" / caps_file
+
+    if not caps_path.exists():
+        raise FileNotFoundError(f"{caps_file}.yaml not found")
+
+    data = load_yaml(caps_path)
+    
+    return data[profile]
+
+def load_mobile_capabilities(platform, profile="default"):
+    caps_path = get_project_root() / "config" / "capabilities" / f"{platform}.yaml"
+
+    if not caps_path.exists():
+        raise FileNotFoundError(f"{platform}.yaml not found")
+
+    data = load_yaml(caps_path)
+
+    if profile not in data:
+        raise ValueError(f"Profile '{profile}' not found in {platform}.yaml")
+
+    return data[profile]

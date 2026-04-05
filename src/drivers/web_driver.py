@@ -30,7 +30,8 @@ def create_web_driver(env_config, caps):
     log.info(f"[WEB] Starting browser: {browser}")
     log.info(f"[WEB] Selenium Grid URL: {selenium_url}")
 
-    if browser == "chrome":
+    if browser  in ["chrome", "chromium"]:
+        log.info("[WEB] Setting up Chrome options")
         options = ChromeOptions()
 
         for key, value in caps.items():
@@ -40,11 +41,23 @@ def create_web_driver(env_config, caps):
             else:
                 options.set_capability(key, value)
 
-    elif browser == "firefox":
+    elif browser  in ["firefox"]:
+        log.info("[WEB] Setting up Firefox options")
         options = FirefoxOptions()
 
         for key, value in caps.items():
             if key == "moz:firefoxOptions":
+                for arg in value.get("args", []):
+                    options.add_argument(arg)
+            else:
+                options.set_capability(key, value)
+                
+    elif browser in ["edge", "microsoftedge"]:
+        log.info("[WEB] Setting up Edge options")
+        options = webdriver.EdgeOptions()
+
+        for key, value in caps.items():
+            if key == "ms:edgeOptions":
                 for arg in value.get("args", []):
                     options.add_argument(arg)
             else:
@@ -54,11 +67,13 @@ def create_web_driver(env_config, caps):
         raise ValueError(f"Unsupported browser: {browser}")
 
     try:
+        log.info("[WEB] Attempting to start remote WebDriver")
         driver = _start_remote_driver(selenium_url, options)
 
         # -------------------------------
         # Timeouts
         # -------------------------------
+        log.info("[WEB] Setting timeouts")
         driver.set_page_load_timeout(int(os.getenv("PAGE_LOAD_TIMEOUT", 30)))
         driver.implicitly_wait(int(os.getenv("IMPLICIT_WAIT", 5)))
 
@@ -67,6 +82,7 @@ def create_web_driver(env_config, caps):
         # -------------------------------
         if not any("--headless" in arg for arg in options.arguments):
             try:
+                log.info("[WEB] Maximizing browser window")
                 driver.maximize_window()
             except Exception:
                 log.warning("[WEB] Could not maximize window")
