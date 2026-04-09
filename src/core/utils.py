@@ -31,18 +31,8 @@ def load_yaml(filename):
     with open(file_path) as f:
         return yaml.safe_load(f)
     
-def load_web_capabilities(platform, profile="chrome"):
-    caps_file = f"{platform}.yaml"
-    caps_path = get_project_root() / "config" / "capabilities" / caps_file
 
-    if not caps_path.exists():
-        raise FileNotFoundError(f"{caps_file}.yaml not found")
-
-    data = load_yaml(caps_path)
-    
-    return data[profile]
-
-def load_mobile_capabilities(platform, profile="default"):
+def load_capabilities(platform, profile="default"):
     caps_path = get_project_root() / "config" / "capabilities" / f"{platform}.yaml"
 
     if not caps_path.exists():

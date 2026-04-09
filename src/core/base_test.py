@@ -1,11 +1,7 @@
-from appium import webdriver
-
 from src.core.config_loader import load_env_config
-from src.core.utils import get_env,load_mobile_capabilities
+from src.core.utils import get_env, load_capabilities
 from src.drivers.mobile_driver import create_android_driver
 from src.drivers.web_driver import create_web_driver
-import os
-
 
 class BaseTest:
 
@@ -17,7 +13,7 @@ class BaseTest:
         profile = get_env("DEVICE_PROFILE", "edge")
         
          # 🔥 Load caps dynamically
-        caps = load_mobile_capabilities(platform, profile)
+        caps = load_capabilities(platform, profile)
 
         if platform == "web":
             self.driver = create_web_driver(self.env_config, caps)
